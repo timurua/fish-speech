@@ -35,16 +35,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 WORKDIR /opt/fish-speech
 
-COPY . .
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN --mount=type=cache,target=/root/.cache,sharing=locked \
-    set -ex \
-    && pip install -e .[stable]
+COPY . .
 
 COPY --from=stage-1 /opt/fish-speech/checkpoints /opt/fish-speech/checkpoints
 
-ENV GRADIO_SERVER_NAME="0.0.0.0"
-
-EXPOSE 7860
+RUN mkdir -p /app/data
+VOLUME ["/app/data"]
 
 CMD ["./entrypoint.sh"]
