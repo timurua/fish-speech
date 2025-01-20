@@ -42,7 +42,3 @@ COPY . .
 
 COPY --from=stage-1 /opt/fish-speech/checkpoints /opt/fish-speech/checkpoints
 
-RUN mkdir -p /app/data
-VOLUME ["/app/data"]
-
-CMD ["./entrypoint.sh"]
